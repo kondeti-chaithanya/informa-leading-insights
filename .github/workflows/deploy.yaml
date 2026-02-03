@@ -25,4 +25,4 @@ jobs:
  
       - name: Sync Public Folder to DEV Bucket
         run: |
-          aws s3 sync public/ s3://${{ secrets.S3_BUCKET_NAME }}/ --delete
+          aws s3 sync public/ s3://${{ secrets.S3_BUCKET_NAME }} --delete
