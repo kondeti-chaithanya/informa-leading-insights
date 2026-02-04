@@ -1,0 +1,24 @@
+name: Sync DEV S3 to STAGE S3
+
+on:
+  pull_request:
+    branches:
+      - stage
+    types:
+      - closed
+
+jobs:
+  s3-sync:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure AWS (STAGE role)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_STAGE_ROLE_ARN }}
+          aws-region: ap-south-1
+
+      - name: Sync DEV S3 → STAGE S3
+        run: |
+          aws s3 sync s3://informa-leading-insights-bucket1/ s3://${{ secrets.STAGE_BUCKET_NAME }}/ --delete
