@@ -1,0 +1,65 @@
+name:  Manual PROD Deployment (Stage → Prod)
+ 
+on:
+
+  workflow_dispatch:
+
+    inputs:
+
+      confirm:
+
+        description: "Type DEPLOY to confirm PROD deployment"
+
+        required: true
+
+        default: ""
+ 
+permissions:
+
+  id-token: write
+
+  contents: read
+ 
+jobs:
+
+  deploy-prod:
+
+    runs-on: ubuntu-latest
+ 
+    steps:
+
+      - name: Validate confirmation
+
+        run: |
+
+          if [ "${{ github.event.inputs.confirm }}" != "DEPLOY" ]; then
+
+            echo " Confirmation failed. Type DEPLOY to proceed."
+
+            exit 1
+
+          fi
+ 
+      - name: Assume PROD role (OIDC)
+
+        uses: aws-actions/configure-aws-credentials@v4
+
+        with:
+
+          role-to-assume: ${{ secrets.PROD_ROLE_ARN }}
+
+          aws-region: ap-south-1
+ 
+      - name: Sync STAGE S3 → PROD S3
+
+        run: |
+
+          aws s3 sync \
+
+            s3://${{ secrets.STAGE_BUCKET_NAME }}/ \
+
+            s3://${{ secrets.PROD_BUCKET_NAME }}/ \
+
+            --delete
+
+ 

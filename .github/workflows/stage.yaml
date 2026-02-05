@@ -7,9 +7,10 @@ on:
     types:
       - closed
 
+# 🔐 REQUIRED FOR OIDC (THIS WAS MISSING)
 permissions:
-  id-token: write     
-  contents: read     
+  id-token: write
+  contents: read
 
 jobs:
   s3-sync:
@@ -31,4 +32,7 @@ jobs:
 
       - name: Sync DEV S3 → STAGE S3
         run: |
-          aws s3 sync s3://dev-informa-bucket/ s3://${{ secrets.STAGE_BUCKET_NAME }}/ --delete
+          aws s3 sync \
+            s3://informa-leading-insights-bucket1/ \
+            s3://${{ secrets.STAGE_BUCKET_NAME }}/ \
+            --delete
