@@ -7,7 +7,7 @@ on:
     types:
       - closed
 
-
+# 🔐 REQUIRED FOR OIDC (THIS WAS MISSING)
 permissions:
   id-token: write
   contents: read
