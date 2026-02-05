@@ -18,11 +18,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Configure AWS (STAGE role)
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS (STAGE role via OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_STAGE_ROLE_ARN }}
           aws-region: ap-south-1
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
 
       - name: Sync DEV S3 → STAGE S3
         run: |
