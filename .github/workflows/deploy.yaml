@@ -40,7 +40,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      # 4️⃣ Sync aviation assets
+      # 4️⃣ Sync aviation
       - name: Sync aviation
         if: steps.filter.outputs.aviation == 'true'
         run: |
@@ -48,7 +48,7 @@ jobs:
             --delete \
             --size-only
 
-      # 5️⃣ Sync connect assets
+      # 5️⃣ Sync connect
       - name: Sync connect
         if: steps.filter.outputs.connect == 'true'
         run: |
@@ -56,7 +56,7 @@ jobs:
             --delete \
             --size-only
 
-      # 6️⃣ Sync sli assets
+      # 6️⃣ Sync sli
       - name: Sync sli
         if: steps.filter.outputs.sli == 'true'
         run: |
@@ -64,7 +64,7 @@ jobs:
             --delete \
             --size-only
 
-      # 7️⃣ Sync investor-insights assets
+      # 7️⃣ Sync investor-insights
       - name: Sync investor-insights
         if: steps.filter.outputs.investor_insights == 'true'
         run: |
