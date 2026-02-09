@@ -36,6 +36,9 @@
 #             s3://informa-leading-insights-bucket1/ \
 #             s3://${{ secrets.STAGE_BUCKET_NAME }}/ \
 #             --delete
+
+
+
 name: Sync DEV S3 to STAGE S3
  
 on:
