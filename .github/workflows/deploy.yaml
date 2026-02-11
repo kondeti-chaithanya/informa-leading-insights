@@ -1,27 +1,34 @@
 name: Sync Static Assets to DEV S3
- 
+
 on:
   pull_request:
     branches:
       - dev
     types:
       - closed
- 
+
 jobs:
   sync-assets:
+    name: Sync Public Folder to DEV S3
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
- 
+
     steps:
-      - uses: actions/checkout@v3
- 
-      - uses: aws-actions/configure-aws-credentials@v2
+      # 1️⃣ Checkout repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # 2️⃣ Configure AWS credentials
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
- 
-      - run: aws s3 sync public/ s3://${{ secrets.S3_BUCKET_NAME }}  --delete --size-only
- 
- 
- 
+
+      # 3️⃣ Sync public folder to S3
+      - name: Sync Static Files to S3
+        run: |
+          aws s3 sync public/ s3://${{ secrets.S3_BUCKET_NAME }} \
+            --delete \
+            --size-only
