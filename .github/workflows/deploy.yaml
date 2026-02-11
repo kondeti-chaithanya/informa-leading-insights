@@ -9,16 +9,13 @@ on:
 
 jobs:
   sync-assets:
-    name: Sync Public Folder to DEV S3
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # 2️⃣ Configure AWS credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -26,9 +23,5 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-south-1
 
-      # 3️⃣ Sync public folder to S3
       - name: Sync Static Files to S3
-        run: |
-          aws s3 sync public/ s3://${{ secrets.S3_BUCKET_NAME }} \
-            --delete \
-            --size-only
+        run: aws s3 sync public/ s3://${{ secrets.S3_BUCKET_NAME }} --delete --size-only
