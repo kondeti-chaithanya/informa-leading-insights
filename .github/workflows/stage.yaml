@@ -62,9 +62,6 @@ jobs:
           role-to-assume: ${{ secrets.AWS_STAGE_ROLE_ARN }}
           aws-region: ap-south-1
  
-      - run: aws s3 sync s3://${{ secrets.S3_BUCKET_NAME }}/aviation/ s3://${{ secrets.STAGE_BUCKET_NAME }}/aviation/
-      - run: aws s3 sync s3://${{ secrets.S3_BUCKET_NAME }}/connect/ s3://${{ secrets.STAGE_BUCKET_NAME }}/connect/
-      - run: aws s3 sync s3://${{ secrets.S3_BUCKET_NAME }}/sli/ s3://${{ secrets.STAGE_BUCKET_NAME }}/sli/
-      - run: aws s3 sync s3://${{ secrets.S3_BUCKET_NAME }}/investor-insights/ s3://${{ secrets.STAGE_BUCKET_NAME }}/investor-insights/
+      - run: aws s3 sync s3://${{ secrets.DEV_BUCKET }}/ s3://${{ secrets.STAGE_BUCKET_NAME }}/
  
  
